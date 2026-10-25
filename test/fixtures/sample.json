@@ -1,0 +1,23 @@
+{
+  "name": "universal-renderer",
+  "version": "0.1.0",
+  "features": [
+    "markdown",
+    "pdf",
+    "image",
+    "media",
+    "html-sandbox"
+  ],
+  "nested": {
+    "ok": true,
+    "items": [
+      1,
+      2,
+      3
+    ],
+    "meta": {
+      "engine": "electron",
+      "mcp": "stdio"
+    }
+  }
+}

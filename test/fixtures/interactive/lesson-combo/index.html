@@ -1,0 +1,169 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>加载中…</title>
+<link rel="stylesheet" href="ur-lib://local/katex/katex.min.css">
+<link rel="stylesheet" href="ur-lib://local/jsxgraph/jsxgraph.css">
+<style>
+*{box-sizing:border-box}body{font-family:"Segoe UI","Microsoft YaHei",sans-serif;margin:0;padding:0 0 60px;background:#fffdf8;color:#292524}
+.hero{background:linear-gradient(135deg,#d97706,#f59e0b);color:#fff;padding:36px 32px}
+.hero h1{margin:0 0 6px;font-size:26px}.hero p{margin:0;opacity:.9}
+section{max-width:860px;margin:24px auto;padding:22px 26px;background:#fff;border:1px solid #d6ccb8;border-radius:14px;box-shadow:0 2px 10px rgba(120,113,108,.06)}
+h2{margin:0 0 14px;color:#b45309;font-size:19px;border-bottom:2px solid #f5e9d3;padding-bottom:8px}
+.tag{display:inline-block;font-size:11px;background:#fde8cc;color:#b45309;border-radius:4px;padding:2px 8px;margin-left:8px;vertical-align:middle}
+canvas{border-radius:10px;display:block;max-width:100%}
+#box{width:100%;height:380px;border:1px solid #d6ccb8;border-radius:10px;background:#fff}
+.f{margin:14px 0;font-size:1.2em}
+.quiz-q{margin:10px 0;padding:12px 16px;border:1px solid #d6ccb8;border-radius:10px;cursor:pointer;transition:all .15s}
+.quiz-q:hover{border-color:#d97706;background:#fffaf0}
+.quiz-q.right{border-color:#22c55e;background:#f0fdf4}
+.quiz-q.wrong{border-color:#ef4444;background:#fef2f2}
+#list{max-width:460px}.item{background:#fff;border:1px solid #d6ccb8;border-radius:8px;padding:12px 16px;margin:8px 0;cursor:grab;font-size:15px}
+.item.ok{border-color:#22c55e;background:#f0fdf4}
+video{max-width:100%;border-radius:10px}
+#progress{position:fixed;top:0;left:0;height:4px;background:#22c55e;transition:width .3s;z-index:99;width:0}
+.score{font-weight:700;color:#22c55e}
+.hint{color:#78716c;font-size:13px}
+</style>
+</head><body>
+<div id="progress"></div>
+<div class="hero"><h1>交互式学习：三角函数与 3D 空间</h1><p>综合演示 — 3D 交互 / 公式 / 动态几何 / 拖拽排序 / 选择测验 / 视频讲解（每个区块独立，可单独使用）</p></div>
+
+<!-- ============ 区块 1：3D 交互（可拖拽旋转 / 滚轮缩放） ============ -->
+<section><h2>3D 交互<span class="tag">Three.js</span></h2>
+<p class="hint">按住拖动旋转视角 · 滚轮缩放 · 立方体持续自转</p>
+<canvas id="c3d"></canvas>
+<div id="d3stat" class="hint"></div>
+<script src="ur-lib://local/three/three.min.js"></script>
+<script>
+(function () {
+  try {
+    var canvas = document.getElementById('c3d');
+    var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+    var scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x1a1c22);
+    var camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
+    var group = new THREE.Group();
+    var cube = new THREE.Mesh(new THREE.BoxGeometry(1.6, 1.6, 1.6), new THREE.MeshStandardMaterial({ color: 0xd97706, roughness: .35, metalness: .25 }));
+    var wire = new THREE.LineSegments(new THREE.EdgesGeometry(cube.geometry), new THREE.LineBasicMaterial({ color: 0xffffff }));
+    group.add(cube, wire);
+    group.add(new THREE.AxesHelper(2.2));
+    scene.add(group);
+    scene.add(new THREE.AmbientLight(0xffffff, .5));
+    var dl = new THREE.DirectionalLight(0xffffff, 1); dl.position.set(2, 3, 4); scene.add(dl);
+    var rotX = .5, rotY = .6, dist = 4.2, dragging = false, lx = 0, ly = 0, interacted = 0;
+    function resize() { var w = Math.min(760, canvas.parentElement.clientWidth - 52); canvas.width = w; canvas.height = Math.round(w * .56); camera.aspect = w / canvas.height; camera.updateProjectionMatrix(); }
+    window.addEventListener('resize', resize); resize();
+    canvas.style.touchAction = 'none';
+    canvas.addEventListener('pointerdown', function (e) { dragging = true; lx = e.clientX; ly = e.clientY; interacted++; upd(); });
+    window.addEventListener('pointermove', function (e) { if (!dragging) return; rotY += (e.clientX - lx) * .008; rotX += (e.clientY - ly) * .008; lx = e.clientX; ly = e.clientY; });
+    window.addEventListener('pointerup', function () { dragging = false; });
+    canvas.addEventListener('wheel', function (e) { e.preventDefault(); dist = Math.max(2.2, Math.min(9, dist + e.deltaY * .004)); interacted++; upd(); }, { passive: false });
+    function upd() { document.getElementById('d3stat').textContent = '已交互 ' + interacted + ' 次（拖拽/缩放生效）'; if (interacted >= 1) window.__D3INT = true; bump(); }
+    var t = 0;
+    (function loop() { requestAnimationFrame(loop); t += .016; group.rotation.x = rotX; group.rotation.y = rotY + t * .3; camera.position.set(0, 0, dist); camera.lookAt(0, 0, 0); renderer.render(scene, camera); })();
+    window.__THREE = true;
+  } catch (e) { document.getElementById('d3stat').textContent = '3D 初始化失败: ' + e.message; }
+})();
+</script></section>
+
+<!-- ============ 区块 2：数学公式（KaTeX） ============ -->
+<section><h2>公式<span class="tag">KaTeX</span></h2>
+<div class="f">单位圆定义：<span id="fx1"></span></div>
+<div class="f">勾股定理：<span id="fx2"></span></div>
+<div class="f">和角公式：<span id="fx3"></span></div>
+<script src="ur-lib://local/katex/katex.min.js"></script>
+<script>
+(function () { try {
+  katex.render('\\sin^2\\theta + \\cos^2\\theta = 1', document.getElementById('fx1'), { displayMode: true });
+  katex.render('a^2 + b^2 = c^2', document.getElementById('fx2'), { displayMode: true });
+  katex.render('\\sin(\\alpha + \\beta) = \\sin\\alpha\\,\\cos\\beta + \\cos\\alpha\\,\\sin\\beta', document.getElementById('fx3'), { displayMode: true });
+  window.__KATEX = true;
+} catch (e) { document.getElementById('fx1').textContent = '公式失败: ' + e.message; } })();
+</script></section>
+
+<!-- ============ 区块 3：动态几何（可拖动点） ============ -->
+<section><h2>动态几何<span class="tag">JSXGraph</span></h2>
+<p class="hint">拖动圆上的点 P，观察坐标与正弦值变化</p>
+<div id="box" class="jxgbox"></div>
+<div id="geoout" class="hint"></div>
+<script src="ur-lib://local/jsxgraph/jsxgraphcore.js"></script>
+<script>
+(function () { try {
+  var brd = JXG.JSXGraph.initBoard('box', { boundingbox: [-3.2, 2.4, 7.6, -2.4], axis: true, showCopyright: false });
+  var O = brd.create('point', [0, 0], { fixed: true, size: 1, name: '' });
+  var A = brd.create('point', [1, 0], { size: 4, name: 'P' });
+  brd.create('circle', [O, A], { strokeColor: '#d97706' });
+  var proj = brd.create('point', [function () { return A.X(); }, 0], { size: 1, name: '', visible: false });
+  brd.create('segment', [O, A], { strokeColor: '#78716c' });
+  brd.create('segment', [A, proj], { dash: 2, strokeColor: '#b45309' });
+  brd.create('text', [4, 1.8, function () { return 'P = (' + A.X().toFixed(2) + ', ' + A.Y().toFixed(2) + ')   sinθ = ' + A.Y().toFixed(2); }], { fontSize: 14 });
+  A.on('drag', function () { window.__GEOINT = true; bump(); });
+  window.__GEO = true;
+} catch (e) { document.getElementById('geoout').textContent = '几何失败: ' + e.message; } })();
+</script></section>
+
+<!-- ============ 区块 4：拖拽排序练习 ============ -->
+<section><h2>排序练习<span class="tag">SortableJS</span></h2>
+<p class="hint">把单位圆推导正弦函数的步骤排成正确顺序</p>
+<div id="list">
+  <div class="item" data-k="3">在圆上取动点 P(x, y)</div>
+  <div class="item" data-k="1">建立单位圆（半径 = 1）</div>
+  <div class="item" data-k="4">定义 sin θ = y（P 的纵坐标）</div>
+  <div class="item" data-k="2">从 x 轴正方向度量角 θ</div>
+</div>
+<div id="sortmsg" class="hint"></div>
+<script src="ur-lib://local/sortable/sortable.min.js"></script>
+<script>
+(function () { try {
+  Sortable.create(document.getElementById('list'), { animation: 150, onEnd: function () {
+    var ks = [].map.call(document.querySelectorAll('.item'), function (el) { return el.dataset.k; }).join('');
+    if (ks === '1234') { document.getElementById('sortmsg').innerHTML = '<span class="score">✓ 顺序正确！</span>'; document.querySelectorAll('.item').forEach(function (el) { el.classList.add('ok'); }); window.__SORT = true; bump(); }
+  } });
+  window.__SORTABLE = true;
+} catch (e) {} })();
+</script></section>
+
+<!-- ============ 区块 5：选择测验（答对计分） ============ -->
+<section><h2>测验<span class="tag">内置</span></h2>
+<div id="quiz"></div>
+<div id="quizmsg"></div>
+<script>
+(function () {
+  var qs = [
+    { q: 'sin 30° = ?', opts: ['1/2', '√3/2', '1'], a: 0 },
+    { q: '单位圆的半径是？', opts: ['2', '1', 'π'], a: 1 },
+    { q: 'cos²θ + sin²θ = ?', opts: ['0', '2', '1'], a: 2 },
+  ];
+  var score = 0, done = 0, wrap = document.getElementById('quiz');
+  qs.forEach(function (item, qi) {
+    var d = document.createElement('div'); d.style.margin = '10px 0';
+    d.innerHTML = '<b>' + (qi + 1) + '. ' + item.q + '</b>';
+    item.opts.forEach(function (o, oi) {
+      var b = document.createElement('div'); b.className = 'quiz-q'; b.textContent = o;
+      b.addEventListener('click', function () {
+        if (d.dataset.done) return; d.dataset.done = '1'; done++;
+        if (oi === item.a) { b.classList.add('right'); score++; } else { b.classList.add('wrong'); }
+        if (done === qs.length) document.getElementById('quizmsg').innerHTML = '得分：<span class="score">' + score + ' / ' + qs.length + '</span>';
+        window.__QUIZ = true; bump();
+      });
+      d.appendChild(b);
+    });
+    wrap.appendChild(d);
+  });
+})();
+</script></section>
+
+<!-- ============ 区块 6：视频讲解 ============ -->
+<section><h2>视频讲解<span class="tag">本地媒体</span></h2>
+<video src="assets/demo.mp4" controls width="100%"></video>
+</section>
+
+<script>
+// 学习进度条：五个交互标志点亮进度（storage 权限下持久记录）
+function bump() {
+  var marks = ['__D3INT', '__KATEX', '__GEO', '__SORT', '__QUIZ'].filter(function (k) { return window[k]; }).length;
+  document.getElementById('progress').style.width = Math.round(marks / 5 * 100) + '%';
+  try { localStorage.setItem('lesson-progress', String(marks)); } catch (e) {}
+}
+setTimeout(bump, 800);
+setTimeout(function () { document.title = 'LESSON_OK'; }, 900);
+</script>
+</body></html>

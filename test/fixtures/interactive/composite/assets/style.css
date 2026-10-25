@@ -1,0 +1,4 @@
+body{font-family:"Segoe UI","Microsoft YaHei",sans-serif;padding:24px;background:#fffdf8;color:#292524;margin:0}
+.card{background:#fff;border:1px solid #d6ccb8;border-radius:12px;padding:18px;margin:16px 0;box-shadow:0 2px 8px rgba(120,113,108,.08)}
+h2{color:#d97706}img{max-width:100%;border-radius:8px}video{max-width:100%;border-radius:8px}
+#clock{font-size:1.6em;font-weight:700;color:#b45309;font-variant-numeric:tabular-nums}

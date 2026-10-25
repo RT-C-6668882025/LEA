@@ -1,0 +1,8 @@
+node_modules/
+dist/
+*.log
+.shot
+.result
+test/fixtures/media/*.mp4
+test/fixtures/interactive/*/assets/*.mp4
+test/*.png

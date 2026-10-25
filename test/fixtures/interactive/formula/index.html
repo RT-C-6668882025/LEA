@@ -1,0 +1,19 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>加载中…</title>
+<link rel="stylesheet" href="assets/katex.min.css">
+<style>body{font-family:"Segoe UI","Microsoft YaHei",sans-serif;padding:28px;background:#fffdf8;color:#292524}h2{border-bottom:2px solid #d97706;padding-bottom:6px}.f{margin:18px 0;font-size:1.25em}</style>
+</head><body>
+<h2>数学公式渲染（KaTeX）</h2>
+<div class="f">质能方程：<span id="f1"></span></div>
+<div class="f">勾股定理：<span id="f2"></span></div>
+<div class="f">欧拉公式：<span id="f3"></span></div>
+<div class="f">求和公式：<span id="f4"></span></div>
+<script src="assets/katex.min.js"></script>
+<script>
+try {
+  katex.render('E = mc^2', document.getElementById('f1'), { displayMode: true });
+  katex.render('a^2 + b^2 = c^2', document.getElementById('f2'), { displayMode: true });
+  katex.render('e^{i\pi} + 1 = 0', document.getElementById('f3'), { displayMode: true });
+  katex.render('\\sum_{k=1}^{n} k = \\frac{n(n+1)}{2}', document.getElementById('f4'), { displayMode: true });
+  setTimeout(function () { document.title = 'KATEX_OK'; }, 400);
+} catch (e) { document.title = 'KATEXERR:' + e.message; }
+</script></body></html>

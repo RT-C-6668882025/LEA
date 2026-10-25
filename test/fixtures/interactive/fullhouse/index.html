@@ -1,0 +1,180 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>加载中…</title>
+<link rel="stylesheet" href="ur-lib://local/katex/katex.min.css">
+<link rel="stylesheet" href="ur-lib://local/jsxgraph/jsxgraph.css">
+<style>
+*{box-sizing:border-box}body{font-family:"Segoe UI","Microsoft YaHei",sans-serif;margin:0;padding:0 0 60px;background:#fffdf8;color:#292524}
+.hero{background:linear-gradient(135deg,#d97706,#f59e0b);color:#fff;padding:28px 32px}
+.hero h1{margin:0 0 4px;font-size:22px}.hero p{margin:0;opacity:.9;font-size:14px}
+section{max-width:880px;margin:20px auto;padding:20px 24px;background:#fff;border:1px solid #d6ccb8;border-radius:14px}
+h2{margin:0 0 12px;color:#b45309;font-size:18px;border-bottom:2px solid #f5e9d3;padding-bottom:8px}
+.tag{font-size:11px;background:#fde8cc;color:#b45309;border-radius:4px;padding:2px 8px;margin-left:8px}
+.hint{color:#78716c;font-size:13px}
+canvas{border-radius:8px;max-width:100%}
+#box{width:100%;height:340px;border:1px solid #d6ccb8;border-radius:10px;background:#fff}
+.f{margin:12px 0;font-size:1.15em}
+.md img,img{max-width:100%;border-radius:8px}
+audio{width:100%}video{max-width:100%;border-radius:10px}
+table{border-collapse:collapse;font-size:13px}td,th{border:1px solid #d6ccb8;padding:5px 12px}
+tr:first-child td{background:#f5f1e6;font-weight:600}
+.item{background:#fff;border:1px solid #d6ccb8;border-radius:8px;padding:10px 14px;margin:6px 0;cursor:grab}
+.quiz-q{margin:8px 0;padding:10px 14px;border:1px solid #d6ccb8;border-radius:10px;cursor:pointer}
+.quiz-q.right{border-color:#22c55e;background:#f0fdf4}.quiz-q.wrong{border-color:#ef4444;background:#fef2f2}
+.pdfpage{background:#fff;border:1px solid #d6ccb8;border-radius:6px;margin:8px 0;display:block;max-width:100%}
+.pptx-slide{width:100%;aspect-ratio:16/10;background:#fff;border:1px solid #d6ccb8;border-radius:8px;padding:16px;margin:8px 0;overflow:hidden}
+</style>
+</head><body>
+<div class="hero"><h1>全家福复合页：14 种内容区块同页</h1><p>图文 Markdown · 图片 · 音频 · 视频 · 公式 · 几何 · 3D · 图表 · 拖拽 · 测验 · PDF · Word · Excel · PPT</p></div>
+
+<!-- 1. Markdown 图文 -->
+<section><h2>1. 图文讲解<span class="tag">marked</span></h2><div class="md" id="md1"></div>
+<script src="ur-lib://local/marked/marked.min.js"></script>
+<script>
+document.getElementById('md1').innerHTML = marked.parse('# 复合页说明\n\n所有能容纳的内容类型都在**这一页**里。每块独立，可任意删减组合。\n\n- 下方依次是各种媒体与交互\n- 全部离线（客户端内置库）');
+window.__B1 = true;
+</script></section>
+
+<!-- 2. 图片 -->
+<section><h2>2. 图片</h2><img src="assets/sample.png" width="360" alt="测试图">
+<script>try { new Image().src = 'assets/sample.png'; window.__B2 = true; } catch (e) {}</script></section>
+
+<!-- 3. 音频 -->
+<section><h2>3. 音频<span class="tag">audio</span></h2><audio src="assets/audio.wav" controls></audio>
+<script>document.querySelector('audio').addEventListener('loadedmetadata', function () { window.__B3 = true; });</script></section>
+
+<!-- 4. 视频 -->
+<section><h2>4. 视频<span class="tag">video</span></h2><video src="assets/video.mp4" controls width="100%"></video>
+<script>document.querySelector('video').addEventListener('loadedmetadata', function () { window.__B4 = true; });</script></section>
+
+<!-- 5. 公式 -->
+<section><h2>5. 数学公式<span class="tag">KaTeX</span></h2><div class="f"><span id="fx"></span></div>
+<script src="ur-lib://local/katex/katex.min.js"></script>
+<script>try { katex.render('\\int_a^b f(x)\\,dx = F(b) - F(a)', document.getElementById('fx'), { displayMode: true }); window.__B5 = true; } catch (e) { document.getElementById('fx').textContent = 'ERR:' + e.message; }</script></section>
+
+<!-- 6. 动态几何 -->
+<section><h2>6. 动态几何<span class="tag">JSXGraph</span></h2><div id="box" class="jxgbox"></div>
+<script src="ur-lib://local/jsxgraph/jsxgraphcore.js"></script>
+<script>try {
+  var b = JXG.JSXGraph.initBoard('box', { boundingbox: [-2, 2.5, 7, -2.5], axis: true, showCopyright: false });
+  var O = b.create('point', [0, 0], { fixed: true, size: 1, name: '' });
+  var A = b.create('point', [1, 0], { size: 4, name: 'P' });
+  b.create('circle', [O, A], { strokeColor: '#d97706' });
+  window.__B6 = true;
+} catch (e) {}</script></section>
+
+<!-- 7. 3D -->
+<section><h2>7. 3D<span class="tag">Three.js</span></h2><canvas id="c3d"></canvas>
+<script src="ur-lib://local/three/three.min.js"></script>
+<script>try {
+  var cv = document.getElementById('c3d'), rd = new THREE.WebGLRenderer({ canvas: cv, antialias: true });
+  var sc = new THREE.Scene(); sc.background = new THREE.Color(0x1a1c22);
+  var cam = new THREE.PerspectiveCamera(60, 1, .1, 100);
+  var g = new THREE.Group();
+  g.add(new THREE.Mesh(new THREE.IcosahedronGeometry(1.3), new THREE.MeshStandardMaterial({ color: 0xd97706, roughness: .3 })));
+  g.add(new THREE.AxesHelper(2)); sc.add(g);
+  sc.add(new THREE.AmbientLight(0xffffff, .5));
+  var dl = new THREE.DirectionalLight(0xffffff, 1); dl.position.set(2, 3, 4); sc.add(dl);
+  function rs() { var w = Math.min(760, cv.parentElement.clientWidth - 48); cv.width = w; cv.height = Math.round(w * .5); cam.aspect = w / cv.height; cam.updateProjectionMatrix(); }
+  rs();
+  var t = 0; (function lp() { requestAnimationFrame(lp); t += .016; g.rotation.set(t * .4, t, 0); cam.position.set(0, 1, 4); cam.lookAt(0, 0, 0); rd.render(sc, cam); })();
+  window.__B7 = true;
+} catch (e) { document.getElementById('c3d').replaceWith(document.createTextNode('3D ERR: ' + e.message)); }</script></section>
+
+<!-- 8. 图表 -->
+<section><h2>8. 统计图表<span class="tag">Chart.js</span></h2><canvas id="c8"></canvas>
+<script src="ur-lib://local/chartjs/chart.umd.js"></script>
+<script>try {
+  new Chart(document.getElementById('c8'), { type: 'bar', data: { labels: ['A', 'B', 'C'], datasets: [{ data: [4, 9, 6], backgroundColor: '#d97706' }] } });
+  window.__B8 = true;
+} catch (e) {}</script></section>
+
+<!-- 9. 拖拽排序 -->
+<section><h2>9. 拖拽练习<span class="tag">SortableJS</span></h2><div id="list">
+  <div class="item" data-k="2">第二步</div><div class="item" data-k="1">第一步</div><div class="item" data-k="3">第三步</div>
+</div>
+<script src="ur-lib://local/sortable/sortable.min.js"></script>
+<script>try { Sortable.create(document.getElementById('list'), {}); window.__B9 = true; } catch (e) {}</script></section>
+
+<!-- 10. 测验 -->
+<section><h2>10. 测验</h2><div id="quiz"></div>
+<script>
+(function () {
+  var d = document.createElement('div'); d.innerHTML = '<b>1 + 1 = ?</b>';
+  ['1', '2', '3'].forEach(function (o, i) {
+    var b = document.createElement('div'); b.className = 'quiz-q'; b.textContent = o;
+    b.addEventListener('click', function () { b.classList.add(i === 1 ? 'right' : 'wrong'); window.__B10x = true; });
+    d.appendChild(b);
+  });
+  document.getElementById('quiz').appendChild(d);
+  window.__B10 = true; // 渲染成功即计（答题交互另计 __B10x）
+})();
+</script></section>
+
+<!-- 11. PDF -->
+<section><h2>11. PDF 文档<span class="tag">PDF.js</span></h2><p class="hint">sample.pdf 第一页，页面内嵌渲染</p><div id="pdfhost"></div>
+<script src="ur-lib://local/pdfjs/pdf.min.js"></script>
+<script>try {
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'ur-lib://local/pdfjs/pdf.worker.min.js';
+  pdfjsLib.getDocument('assets/sample.pdf').promise.then(function (doc) {
+    return doc.getPage(1).then(function (page) {
+      var host = document.getElementById('pdfhost');
+      var canvas = document.createElement('canvas'); canvas.className = 'pdfpage';
+      var vp = page.getViewport({ scale: 1.4 });
+      canvas.width = vp.width; canvas.height = vp.height;
+      host.appendChild(canvas);
+      return page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
+    });
+  }).then(function () { window.__B11 = true; }).catch(function (e) { document.getElementById('pdfhost').textContent = 'PDF ERR: ' + e.message; });
+} catch (e) { document.getElementById('pdfhost').textContent = 'PDF ERR: ' + e.message; }</script></section>
+
+<!-- 12. Word DOCX -->
+<section><h2>12. Word 文档<span class="tag">mammoth</span></h2><div id="dxhost" class="md"></div>
+<script src="ur-lib://local/mammoth/mammoth.browser.min.js"></script>
+<script>try {
+  fetch('assets/sample.docx').then(function (r) { return r.arrayBuffer(); })
+    .then(function (buf) { return mammoth.convertToHtml({ arrayBuffer: buf }); })
+    .then(function (r) { document.getElementById('dxhost').innerHTML = r.value; window.__B12 = true; })
+    .catch(function (e) { document.getElementById('dxhost').textContent = 'DOCX ERR: ' + e.message; });
+} catch (e) {}</script></section>
+
+<!-- 13. Excel XLSX -->
+<section><h2>13. Excel 表格<span class="tag">SheetJS</span></h2><div id="xlhost"></div>
+<script src="ur-lib://local/xlsx/xlsx.full.min.js"></script>
+<script>try {
+  fetch('assets/sample.xlsx').then(function (r) { return r.arrayBuffer(); })
+    .then(function (buf) { var wb = XLSX.read(buf, { type: 'array' }); return XLSX.utils.sheet_to_html(wb.Sheets[wb.SheetNames[0]]); })
+    .then(function (html) { document.getElementById('xlhost').innerHTML = html; window.__B13 = true; })
+    .catch(function (e) { document.getElementById('xlhost').textContent = 'XLSX ERR: ' + e.message; });
+} catch (e) {}</script></section>
+
+<!-- 14. PPTX（文本预览） -->
+<section><h2>14. PPT 幻灯片<span class="tag">JSZip 提取</span></h2><div id="pphost"></div>
+<script src="ur-lib://local/jszip/jszip.min.js"></script>
+<script>try {
+  fetch('assets/sample.pptx').then(function (r) { return r.arrayBuffer(); })
+    .then(function (buf) { return JSZip.loadAsync(buf); })
+    .then(function (zip) {
+      var slides = Object.keys(zip.files).filter(function (n) { return /^ppt\/slides\/slide\d+\.xml$/.test(n); }).sort();
+      var host = document.getElementById('pphost');
+      return Promise.all(slides.map(function (p) { return zip.file(p).async('string').then(function (xml) {
+        var texts = []; var re = /<a:t>([^<]*)<\/a:t>/g, m;
+        while ((m = re.exec(xml))) texts.push(m[1]);
+        var div = document.createElement('div'); div.className = 'pptx-slide';
+        div.innerHTML = '<b>' + texts[0] + '</b>' + texts.slice(1).map(function (t) { return '<p>' + t + '</p>'; }).join('');
+        host.appendChild(div);
+      }); }));
+    })
+    .then(function () { window.__B14 = true; })
+    .catch(function (e) { document.getElementById('pphost').textContent = 'PPTX ERR: ' + e.message; });
+} catch (e) {}</script></section>
+
+<script>
+// 完成度上报：14 个区块标志
+function report() {
+  var marks = []; for (var i = 1; i <= 14; i++) if (window['__B' + i]) marks.push(i);
+  try { localStorage.setItem('fullhouse', marks.join(',')); } catch (e) {}
+  document.title = 'FH_' + marks.length + '_' + marks.join('-');
+}
+setTimeout(report, 2500);
+setTimeout(report, 5000);
+</script>
+</body></html>

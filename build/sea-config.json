@@ -1,0 +1,5 @@
+{
+  "main": "src/main/mcp-stdio.js",
+  "output": "build/sea-prep.blob",
+  "disableExperimentalSEAWarning": true
+}

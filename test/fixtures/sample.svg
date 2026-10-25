@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 300 200">
+  <rect width="300" height="200" rx="16" fill="#1c1f27"/>
+  <circle cx="150" cy="100" r="52" fill="#5b8cff"/>
+  <polygon points="138,74 138,126 182,100" fill="#fff"/>
+  <text x="150" y="180" text-anchor="middle" fill="#8b91a3" font-size="14" font-family="sans-serif">SVG Viewer OK</text>
+</svg>

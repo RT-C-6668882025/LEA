@@ -1,0 +1,22 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>加载中…</title>
+<style>body{font-family:"Segoe UI","Microsoft YaHei",sans-serif;padding:28px;background:#fffdf8;color:#292524}h2{color:#b45309}.card{background:#fff;border:1px solid #d6ccb8;border-radius:12px;padding:18px;margin:16px 0}</style>
+</head><body>
+<h2>统计图表（Chart.js，客户端内置库）</h2>
+<div class="card"><canvas id="c1"></canvas></div>
+<div class="card"><canvas id="c2"></canvas></div>
+<script src="ur-lib://local/chartjs/chart.umd.js"></script>
+<script>
+try {
+  new Chart(document.getElementById('c1'), {
+    type: 'bar',
+    data: { labels: ['一季度', '二季度', '三季度', '四季度'], datasets: [{ label: '得分', data: [82, 91, 78, 95], backgroundColor: '#d97706' }] },
+    options: { plugins: { title: { display: true, text: '柱状图' } } }
+  });
+  new Chart(document.getElementById('c2'), {
+    type: 'line',
+    data: { labels: ['1月', '2月', '3月', '4月', '5月', '6月'], datasets: [{ label: '进度', data: [12, 29, 45, 61, 78, 92], borderColor: '#b45309', tension: .35, fill: true, backgroundColor: 'rgba(217,119,6,.15)' }] },
+    options: { plugins: { title: { display: true, text: '折线图' } } }
+  });
+  setTimeout(function () { document.title = 'CHART_OK'; }, 500);
+} catch (e) { document.body.innerHTML += '<p style="color:red">图表失败: ' + e.message + '</p>'; }
+</script></body></html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>加载中…</title>
+<style>body{margin:0;overflow:hidden;background:#1a1c22;font-family:sans-serif}#hud{position:fixed;top:8px;left:8px;color:#8b91a3;font-size:12px}</style>
+</head><body>
+<div id="hud">Three.js 立方体旋转演示 — 拖动鼠标旋转视角</div>
+<div id="err" style="color:#ff6b6b;padding:40px"></div>
+<script src="assets/three.min.js"></script>
+<script>
+try {
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(70, innerWidth/innerHeight, 0.1, 100);
+  camera.position.z = 3;
+  var renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(innerWidth, innerHeight);
+  document.body.appendChild(renderer.domElement);
+  var geo = new THREE.BoxGeometry(1.4, 1.4, 1.4);
+  var mat = new THREE.MeshStandardMaterial({ color: 0xd97706, roughness: 0.35, metalness: 0.25 });
+  var cube = new THREE.Mesh(geo, mat);
+  scene.add(cube);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+  var dl = new THREE.DirectionalLight(0xffffff, 1); dl.position.set(2, 3, 4); scene.add(dl);
+  var t = 0;
+  function loop() { requestAnimationFrame(loop); t += 0.016; cube.rotation.x = t * 0.7; cube.rotation.y = t; renderer.render(scene, camera); }
+  loop();
+  setTimeout(function () { document.title = 'THREE3D_OK'; }, 400);
+} catch (e) { document.getElementById('err').textContent = '初始化失败: ' + e.message; }
+</script></body></html>

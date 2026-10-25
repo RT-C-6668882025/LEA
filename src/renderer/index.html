@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self' file:; script-src 'self' file: ur-lib:; worker-src 'self' file: blob:; style-src 'self' 'unsafe-inline' file: ur-lib:; img-src 'self' file: ur-file: data: blob: https:; media-src 'self' ur-file: blob: data: https:; frame-src ur-render: ur-app:; connect-src 'self' ur-file: file: data: blob:; font-src 'self' data: file: ur-lib:;">
+  <title>LEA — Learn Everything Anywhere</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header id="titlebar">
+    <div id="brand" title="LEA — Learn Everything Anywhere · 随处学习一切">LEA</div>
+    <button id="tab-prev" class="tb-arrow md-icon-btn" title="上一个标签 (Ctrl+Shift+Tab)"><span data-icon="chevronLeft"></span></button>
+    <div id="tabbar" role="tablist"></div>
+    <button id="tab-next" class="tb-arrow md-icon-btn" title="下一个标签 (Ctrl+Tab)"><span data-icon="chevron"></span></button>
+    <span class="tb-sep"></span>
+    <button id="btn-cmdk" class="md-icon-btn" title="搜索全部内容 (Ctrl+K)"><span data-icon="search"></span></button>
+    <button id="btn-fullscreen" class="md-icon-btn" title="全屏 (F11)"><span data-icon="maximize"></span></button>
+    <button id="btn-open" class="md-icon-btn primary" title="打开文件 (Ctrl+O)"><span data-icon="plus"></span></button>
+  </header>
+
+  <div id="main-row">
+    <main id="views">
+      <div id="empty-state">
+        <div class="es-logo">LEA</div>
+        <h2>打开点什么开始</h2>
+        <p>把文件拖进窗口 · 点右上角 <b>＋</b> 打开文件</p>
+        <p class="es-hint">Ctrl+K 搜索全部内容 · 支持 Markdown · PDF · 图片 · 音视频 · EPUB · Office · 文件夹</p>
+      </div>
+    </main>
+
+    <aside id="sidebar">
+    <div class="sb-section" id="sb-tools-section" style="display:none">
+      <div class="sb-head"><span>功能</span></div>
+      <div class="sb-tools" id="sb-tools"></div>
+      <div id="sb-panel"></div>
+    </div>
+
+    <div class="sb-section sb-grow">
+      <div class="sb-head">
+        <span>工作区</span>
+        <button class="sb-icon-btn" id="sb-refresh" title="刷新工作区列表" data-icon="refresh"></button>
+      </div>
+      <div class="sb-list" id="sb-folders"></div>
+    </div>
+  </aside>
+  </div>
+
+  <div id="drop-overlay">
+    <div class="drop-box">拖入文件即可打开<span>Markdown · PDF · 图片 · 音视频 · TXT · JSON · HTML · EPUB · DOCX · XLSX · PPTX · 文件夹</span></div>
+  </div>
+
+  <footer id="statusbar">
+    <span id="status-left">就绪</span>
+    <span id="status-right"></span>
+  </footer>
+
+  <script src="icons.js"></script>
+  <script src="tree.js"></script>
+
+  <script src="../../node_modules/marked/marked.min.js"></script>
+  <script src="../../node_modules/dompurify/dist/purify.min.js"></script>
+  <script src="../../node_modules/pdfjs-dist/build/pdf.min.js"></script>
+  <script src="../../node_modules/pdfjs-dist/build/pdf.worker.min.js"></script>
+  <script src="../../node_modules/split.js/dist/split.min.js"></script>
+  <link rel="stylesheet" href="../../node_modules/viewerjs/dist/viewer.min.css">
+  <script src="../../node_modules/jszip/dist/jszip.min.js"></script>
+  <script src="../../node_modules/mammoth/mammoth.browser.min.js"></script>
+  <script src="../../node_modules/xlsx/dist/xlsx.full.min.js"></script>
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+  <script src="../../node_modules/artplayer/dist/artplayer.js"></script>
+  <script src="../../node_modules/wavesurfer.js/dist/wavesurfer.min.js"></script>
+  <script src="../../node_modules/viewerjs/dist/viewer.min.js"></script>
+  <script src="editor.bundle.js"></script>
+  <script src="renderers/markdown.js"></script>
+  <script src="renderers/pdf.js"></script>
+  <script src="renderers/image.js"></script>
+  <script src="renderers/media.js"></script>
+  <script src="renderers/text.js"></script>
+  <script src="renderers/json.js"></script>
+  <script src="renderers/html.js"></script>
+  <script src="renderers/page.js"></script>
+  <script src="renderers/folder.js"></script>
+  <script src="renderers/epub.js"></script>
+  <script src="renderers/docx.js"></script>
+  <script src="renderers/xlsx.js"></script>
+  <script src="renderers/pptx.js"></script>
+  <script src="renderers/slides.js"></script>
+  <script src="renderers/odt.js"></script>
+    <script src="cmdk.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

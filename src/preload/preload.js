@@ -1,0 +1,33 @@
+'use strict';
+const { contextBridge, ipcRenderer, webUtils } = require('electron');
+
+contextBridge.exposeInMainWorld('urAPI', {
+  platform: process.platform,
+  versions: { electron: process.versions.electron, chrome: process.versions.chrome },
+  pathForFile: (file) => { try { return webUtils.getPathForFile(file); } catch { return null; } },
+  openDialog: () => ipcRenderer.invoke('dialog:open'),
+  openPaths: (paths) => ipcRenderer.invoke('open:paths', paths),
+  onOpenContent: (cb) => ipcRenderer.on('open-content', (_e, payload) => cb(payload)),
+  onOpenFailed: (cb) => ipcRenderer.on('open-failed', (_e, info) => cb(info)),
+  onWikiAnchor: (cb) => ipcRenderer.on('wiki-anchor', (_e, info) => cb(info)),
+  onFolderChanged: (cb) => ipcRenderer.on('folder-changed', (_e, info) => cb(info)),
+  contentAck: (reqId, result) => ipcRenderer.send('content:ack', reqId, result),
+  sendTabState: (payload) => ipcRenderer.send('tab:state', payload),
+  tabClosed: (contentId) => ipcRenderer.send('tab:closed', contentId),
+  onMcpRequest: (cb) => ipcRenderer.on('mcp-request', (_e, req) => cb(req)),
+  mcpReply: (reqId, result) => ipcRenderer.send('mcp:reply', reqId, result),
+  openExternal: (url) => ipcRenderer.invoke('shell:openExternal', url),
+  log: (msg) => ipcRenderer.send('ui:log', String(msg)),
+  pageSave: (path, page) => ipcRenderer.invoke('page:save', path, page),
+  pageSaveAs: (page) => ipcRenderer.invoke('page:save-as', page),
+  pagePickMedia: (params) => ipcRenderer.invoke('page:pick-media', params),
+  tabRebind: (contentId, path) => ipcRenderer.send('tab:rebind', contentId, path),
+  libSource: (rel) => ipcRenderer.invoke('lib:source', rel),
+  fileReadB64: (path) => ipcRenderer.invoke('file:read-b64', path),
+  folderTree: (path) => ipcRenderer.invoke('folder:tree', path),
+  searchContent: (q) => ipcRenderer.invoke('search:content', q),
+  wikiOpen: (name) => ipcRenderer.invoke('wiki:open', name),
+  workspaceList: () => ipcRenderer.invoke('workspace:list'),
+  workspaceOpen: (path) => ipcRenderer.invoke('workspace:open', path),
+  appInfo: () => ipcRenderer.invoke('app:info'),
+});
