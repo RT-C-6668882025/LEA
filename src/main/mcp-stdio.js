@@ -12,7 +12,7 @@ const fs = require('fs');
 const { spawn, spawnSync } = require('child_process');
 
 const PIPE_NAME = '\\\\.\\pipe\\lea-ipc';
-const SERVER_INFO = { name: 'lea', version: '0.2.0' };
+const SERVER_INFO = { name: 'lea', version: '0.2.1' };
 
 function mlog(...args) {
   try { process.stderr.write(`[ur-mcp] ${args.join(' ')}\n`); } catch {}

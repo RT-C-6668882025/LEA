@@ -9,6 +9,16 @@
 AI 推理与内容生成交给外部 Agent（如豆包桌面版）：Agent 创建文件夹、修改文件，客户端负责
 隔离执行、权限控制、热更新与状态保留。客户端本身没有任何 AI、没有聊天窗口、不做内容推荐。
 
+## 下载与安装
+
+前往 [GitHub Releases](https://github.com/RT-C-6668882025/LEA/releases/latest)，下载 `LEA-Setup-0.2.1.exe` 并安装。默认安装目录为 `%LOCALAPPDATA%\Programs\LEA`，安装包已包含独立的 `mcp-server.exe`，使用时无需另装 Node.js。
+
+### v0.2.1：豆包桌面版接入修复
+
+- 接入向导默认复制豆包需要的启动命令，路径包含空格时自动加双引号。
+- 明确提示参数与环境变量留空，避免将 JSON 当成命令导致 `COMMAND_NOT_FOUND`。
+- 其他客户端使用的标准 MCP JSON 配置保留在独立折叠区。
+
 ```
 外部 AI Agent                    LEA 客户端
 ────┬───────────────    ┌─────────────────────────────────────────┐
@@ -126,7 +136,36 @@ Agent 生成的文件夹页面里，**所有交互组件开箱即用**——库�
 
 ## 接入 AI Agent（MCP）
 
-**最简接入（30 秒）**：打开 LEA → 点顶栏 🔌（或空状态页「接入 AI Agent」按钮）→ 点「复制配置」（自动填好你电脑的路径）→ 到豆包桌面版「技能·连接器·伙伴」→「新建自定义连接器」→「本地命令 (stdio)」粘贴启用。命令行启动 `LEA.exe --agent-wizard` 可直接弹出向导。
+**最简接入（30 秒）**：打开 LEA → 点顶栏 🔌（或空状态页「接入 AI Agent」按钮）→ 点「复制豆包启动命令」（自动填好你电脑的路径）→ 到豆包桌面版「技能·连接器·伙伴」→「新建自定义连接器」→「本地命令 (stdio)」的命令框粘贴，参数和环境变量留空后启用（不要粘贴 JSON）。命令行启动 `LEA.exe --agent-wizard` 可直接弹出向导。
+
+### 豆包桌面版：填写启动命令
+
+命令框只填写本机 `mcp-server.exe` 的路径，例如：
+
+```text
+C:\Users\你的用户名\AppData\Local\Programs\LEA\mcp-server.exe
+```
+
+参数和环境变量留空。路径含空格时，用双引号包住整条路径；向导会自动处理。
+
+**不要把下面的 JSON 粘进豆包的命令框。** 若旧连接器报启动失败，编辑它并替换原先的 JSON，再保存重试。日志中的 `command="{"`、`COMMAND_NOT_FOUND` 正是将 JSON 当成命令解析的表现。
+
+连接成功后应能发现 10 个工具。对豆包说“用 lea 列出工作区文件夹”验证实际调用。
+
+### Codex：安装本地 MCP
+
+将路径替换为实际安装目录，在 PowerShell 中执行：
+
+```powershell
+codex mcp add lea -- "$env:LOCALAPPDATA\Programs\LEA\mcp-server.exe"
+codex mcp get lea
+```
+
+配置后重新打开会话或重启客户端以加载新增工具。LEA 未运行时，工具调用会自动启动它。
+
+### 其他支持 JSON 配置的客户端
+
+以下配置用于 Claude Desktop / Cline 等支持 MCP JSON 配置的客户端；用户名及安装目录需替换为本机实际值。
 
 ```json
 {

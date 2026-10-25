@@ -1,6 +1,6 @@
 # MCP 接入配置指南
 
-**最简方式**：打开 LEA 客户端 → 顶栏 🔌「接入 AI Agent」按钮（或 `LEA.exe --agent-wizard`）→ 「复制配置」→ 粘贴到你的 Agent 客户端。路径自动填好，无需手写。
+**最简方式**：打开 LEA 客户端 → 顶栏 🔌「接入 AI Agent」按钮（或 `LEA.exe --agent-wizard`）→ 「复制豆包启动命令」→ 粘贴到豆包的命令输入框。其他客户端的 JSON 位于向导的折叠区。路径自动填好，无需手写。
 
 以下为手动配置说明：
 
@@ -27,10 +27,18 @@ LEA 内置标准 MCP Server（stdio 传输，JSON-RPC 2.0，换行分隔帧）�
 ## 豆包桌面版
 
 入口：豆包桌面版左侧「技能 · 连接器 · 伙伴」→「新建自定义连接器」→ 选择「本地命令（stdio）」，
-填入 command/args（或直接粘贴下方 JSON），保存后**信任并启用**该连接器。
+在命令输入框中只填写 mcp-server.exe 的绝对路径，参数和环境变量留空；保存后**信任并启用**该连接器。
+
+**不要将下方 JSON 粘贴到豆包的命令输入框。** 豆包会将 `{` 当成程序名，报 `COMMAND_NOT_FOUND`。路径包含空格时，用双引号包住整条路径。
+
+例如：
+
+```text
+C:\Users\Administrator\AppData\Local\Programs\LEA\mcp-server.exe
+```
 （不同版本菜单文案可能有差异，以实际界面为准；配置后务必用"打开一个本地文件"实测。）
 
-JSON 配置：
+以下 JSON 仅用于支持 MCP JSON 配置导入的客户端：
 
 ```json
 {
@@ -75,21 +83,21 @@ JSON 配置：
 
 配置后向 Agent 发一句：
 
-> 用 lea 打开 C:\Windows\Media\Alarm01.wav 并播放
+> 用 lea 列出工作区文件夹
 
-预期：客户端自动启动（若未运行）、弹出窗口、出现音频标签页并开始播放。
+预期：客户端自动启动（若未运行），返回工作区路径和文件夹列表。
 
 再试一句（验证可编辑页面能力）：
 
-> 用 lea 渲染一个可编辑页面，标题"勾股定理"，包含讲解文字和一个可点击的直角三角形演示互动组件
+> 在 LEA 工作区创建“勾股定理”文件夹，写入 index.html，包含讲解文字和可点击的直角三角形演示，再用 lea 打开它。
 
-预期：出现 page 标签页，Agent 通过 render_content(content_type='page') 生成内容块，
-用户可按 Ctrl+E 进入编辑模式修改文字。
+预期：Agent 通过 write_file 写入页面、open_folder 打开文件夹，页面在沙箱中运行。后续修改文件会自动热更新。
 若失败，按下表排查：
 
 | 现象 | 原因 | 处理 |
 |---|---|---|
-| Agent 工具列表里没有 5 个工具 | 配置未生效/未启用 | 重启 Agent 客户端，确认连接器已"信任+启用" |
+| Agent 工具列表里没有 10 个工具 | 配置未生效/未启用 | 重启 Agent 客户端，确认连接器已"信任+启用" |
+| command="{" / COMMAND_NOT_FOUND | 将 JSON 粘进了命令框 | 清空命令框，改为 mcp-server.exe 的实际路径；参数留空 |
 | 弹出「MCP 配置提示」对话框 | 误用了 LEA.exe --mcp-stdio | 改用 mcp-server.exe |
 | 调用报 APP_NOT_RUNNING | 自动启动被安全软件拦截 | 手动启动客户端再试 |
 | 调用超时 | 杀毒软件拦截命名管道通信 | 加入白名单后重试 |
@@ -97,7 +105,7 @@ JSON 配置：
 
 ## 日志位置
 
-- 应用日志：`%APPDATA%\LEA\lea.log`
+- 应用日志：`%APPDATA%\LEA\oea.log`
 - 视图状态：`%APPDATA%\LEA\view-state.json`
 - MCP Server 运行日志走 stderr（由 Agent 客户端决定是否展示）
 
