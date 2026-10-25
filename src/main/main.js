@@ -801,7 +801,22 @@ ipcMain.handle('open:paths', async (_e, paths) => {
   return results;
 });
 
-ipcMain.handle('app:info', () => ({ version: app.getVersion(), platform: process.platform, mcpPipe: require('./mcp-stdio').PIPE_NAME }));
+ipcMain.handle('app:info', () => {
+  // 打包态返回本机 mcp-server.exe 真实路径（接入向导一键复制）；开发态为 null
+  let mcpServerPath = null;
+  try {
+    const guess = path.join(path.dirname(process.execPath), 'mcp-server.exe');
+    mcpServerPath = fs.existsSync(guess) ? guess : null;
+  } catch {}
+  return { version: app.getVersion(), platform: process.platform, mcpPipe: require('./mcp-stdio').PIPE_NAME, mcpServerPath };
+});
+
+// 剪贴板（接入向导复制配置）
+ipcMain.handle('clipboard:write', (_e, text) => {
+  const { clipboard } = require('electron');
+  clipboard.writeText(String(text || ''));
+  return true;
+});
 
 // 工作区（侧边栏）：列出 / 打开文件夹
 ipcMain.handle('workspace:list', async () => {
@@ -1039,6 +1054,9 @@ if (MCP_MODE) {
     await loadStateStore();
     createWindow();
     log(`LEA ${app.getVersion()} 启动 argv=${JSON.stringify(process.argv.slice(1))}`);
+    if (process.argv.includes('--agent-wizard')) {
+      setTimeout(() => { if (win && !win.isDestroyed()) win.webContents.send('open-agent-wizard'); }, 800);
+    }
     for (const f of extractFileArgs(process.argv)) {
       openLocalPath(f).catch((e) => openFailureFeedback(f, e));
     }

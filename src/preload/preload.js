@@ -10,6 +10,7 @@ contextBridge.exposeInMainWorld('urAPI', {
   onOpenContent: (cb) => ipcRenderer.on('open-content', (_e, payload) => cb(payload)),
   onOpenFailed: (cb) => ipcRenderer.on('open-failed', (_e, info) => cb(info)),
   onWikiAnchor: (cb) => ipcRenderer.on('wiki-anchor', (_e, info) => cb(info)),
+  onOpenAgentWizard: (cb) => ipcRenderer.on('open-agent-wizard', () => cb()),
   onFolderChanged: (cb) => ipcRenderer.on('folder-changed', (_e, info) => cb(info)),
   contentAck: (reqId, result) => ipcRenderer.send('content:ack', reqId, result),
   sendTabState: (payload) => ipcRenderer.send('tab:state', payload),
@@ -30,4 +31,5 @@ contextBridge.exposeInMainWorld('urAPI', {
   workspaceList: () => ipcRenderer.invoke('workspace:list'),
   workspaceOpen: (path) => ipcRenderer.invoke('workspace:open', path),
   appInfo: () => ipcRenderer.invoke('app:info'),
+  clipboardWrite: (t) => ipcRenderer.invoke('clipboard:write', t),
 });

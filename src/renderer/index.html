@@ -14,6 +14,7 @@
     <div id="tabbar" role="tablist"></div>
     <button id="tab-next" class="tb-arrow md-icon-btn" title="下一个标签 (Ctrl+Tab)"><span data-icon="chevron"></span></button>
     <span class="tb-sep"></span>
+    <button id="btn-agent" class="md-icon-btn" title="接入 AI Agent（一键复制配置）"><span data-icon="plug"></span></button>
     <button id="btn-cmdk" class="md-icon-btn" title="搜索全部内容 (Ctrl+K)"><span data-icon="search"></span></button>
     <button id="btn-fullscreen" class="md-icon-btn" title="全屏 (F11)"><span data-icon="maximize"></span></button>
     <button id="btn-open" class="md-icon-btn primary" title="打开文件 (Ctrl+O)"><span data-icon="plus"></span></button>
@@ -26,6 +27,7 @@
         <h2>打开点什么开始</h2>
         <p>把文件拖进窗口 · 点右上角 <b>＋</b> 打开文件</p>
         <p class="es-hint">Ctrl+K 搜索全部内容 · 支持 Markdown · PDF · 图片 · 音视频 · EPUB · Office · 文件夹</p>
+        <p class="es-agent"><button id="es-agent" class="aw-inline-btn">接入 AI Agent — 一键复制配置</button></p>
       </div>
     </main>
 
@@ -88,7 +90,8 @@
   <script src="renderers/pptx.js"></script>
   <script src="renderers/slides.js"></script>
   <script src="renderers/odt.js"></script>
-    <script src="cmdk.js"></script>
+    <script src="agent-wizard.js"></script>
+  <script src="cmdk.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

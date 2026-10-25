@@ -25,6 +25,9 @@
     chevron: '<path d="m9 18 6-6-6-6"/>',
     chevronLeft: '<path d="m15 18-6-6 6-6"/>',
     search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    plug: '<path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/>',
+    copy: '<rect width="14" height="18" x="5" y="2" rx="2"/><path d="M2 7v13a2 2 0 0 0 2 2h11"/>',
+    check: '<path d="M20 6 9 17l-5-5"/>',
     folderTree: '<path d="M13 10h7a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-2.44a1 1 0 0 1-.78-.37l-.44-.5a1 1 0 0 0-.78-.38H9.5a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h2"/><path d="M3 10c1.5 0 3 .5 3 2v4a1 1 0 0 0 1 1h10a2 2 0 0 1 0 4H6a5 5 0 0 1-5-5v-3a2 2 0 0 1 2-2"/>',
   };
   window.urIcon = (name, size) => {

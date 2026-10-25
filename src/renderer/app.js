@@ -410,6 +410,11 @@ $('#btn-open').addEventListener('click', async () => {
   else if (results.length) setStatus('已打开');
 });
 
+const btnAgent = document.getElementById('btn-agent');
+if (btnAgent) btnAgent.addEventListener('click', () => { if (window.urAgentWizard) window.urAgentWizard.show(); });
+const esAgent = document.getElementById('es-agent');
+if (esAgent) esAgent.addEventListener('click', () => { if (window.urAgentWizard) window.urAgentWizard.show(); });
+
 // 快捷键显式按钮：标签切换 / 命令面板 / 全屏
 const tabPrev = document.getElementById('tab-prev');
 if (tabPrev) tabPrev.addEventListener('click', () => applyControl({ action: 'prev_tab' }));
@@ -442,6 +447,8 @@ function toggleFullscreen() {
 
 /* ---------- 初始化 ---------- */
 window.urAPI.onOpenContent(openContent);
+// --agent-wizard 启动参数：直接打开接入向导
+if (window.urAPI.onOpenAgentWizard) window.urAPI.onOpenAgentWizard(() => { if (window.urAgentWizard) window.urAgentWizard.show(); });
 window.urAPI.onOpenFailed((info) => {
   const base = String(info.path || '').split(/[\\/]/).pop() || '文件';
   const id = 'err-' + Math.abs(String(info.path + '|' + info.code).split('').reduce((a, c) => (a * 31 + c.charCodeAt(0)) | 0, 7)).toString(36);

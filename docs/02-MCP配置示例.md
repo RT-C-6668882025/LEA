@@ -1,5 +1,9 @@
 # MCP 接入配置指南
 
+**最简方式**：打开 LEA 客户端 → 顶栏 🔌「接入 AI Agent」按钮（或 `LEA.exe --agent-wizard`）→ 「复制配置」→ 粘贴到你的 Agent 客户端。路径自动填好，无需手写。
+
+以下为手动配置说明：
+
 LEA 内置标准 MCP Server（stdio 传输，JSON-RPC 2.0，换行分隔帧）。
 当前工具集为**文件夹即内容**架构（10 个工具）：`open_folder` / `list_folders` / `reload_folder` /
 `get_view_state` / `navigate_folder` / `write_file` / `read_file` / `search_content` / `list_versions` / `restore_version` —— Agent 写文件，客户端沙箱运行并热更新（全局搜索与历史回退内置）。
