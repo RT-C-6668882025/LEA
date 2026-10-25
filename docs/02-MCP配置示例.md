@@ -1,10 +1,10 @@
 # MCP 接入配置指南
 
 LEA 内置标准 MCP Server（stdio 传输，JSON-RPC 2.0，换行分隔帧）。
-当前工具集为**文件夹即应用**架构（7 个工具）：`open_folder` / `list_folders` / `reload_folder` /
-`get_view_state` / `navigate_folder` / `write_file` / `read_file` —— Agent 写文件，客户端沙箱运行并热更新。
+当前工具集为**文件夹即内容**架构（10 个工具）：`open_folder` / `list_folders` / `reload_folder` /
+`get_view_state` / `navigate_folder` / `write_file` / `read_file` / `search_content` / `list_versions` / `restore_version` —— Agent 写文件，客户端沙箱运行并热更新（全局搜索与历史回退内置）。
 
-它与桌面上已安装的客户端通过 Windows 命名管道 `\\.\pipe\universal-renderer-ipc` 通信；
+它与桌面上已安装的客户端通过 Windows 命名管道 `\\.\pipe\lea-ipc` 通信；
 **客户端未运行时会自动拉起**，客户端重启后 MCP 会自动重连，无需人工干预。
 工作区默认为 `文档\LEA\`（list_folders 返回 root 字段）。
 
@@ -31,7 +31,7 @@ JSON 配置：
 ```json
 {
   "mcpServers": {
-    "universal-renderer": {
+    "lea": {
       "command": "C:\\Users\\<你的用户名>\\AppData\\Local\\Programs\\UniversalRenderer\\mcp-server.exe",
       "args": []
     }
@@ -44,7 +44,7 @@ JSON 配置：
 ```json
 {
   "mcpServers": {
-    "universal-renderer": {
+    "lea": {
       "command": "C:\\Users\\<你的用户名>\\AppData\\Local\\Programs\\UniversalRenderer\\mcp-server.exe",
       "args": []
     }
@@ -57,7 +57,7 @@ JSON 配置：
 ```json
 {
   "mcpServers": {
-    "universal-renderer": {
+    "lea": {
       "command": "C:\\Users\\<你的用户名>\\AppData\\Local\\Programs\\UniversalRenderer\\resources\\app\\mcp-server.cmd",
       "args": []
     }
@@ -71,13 +71,13 @@ JSON 配置：
 
 配置后向 Agent 发一句：
 
-> 用 universal-renderer 打开 C:\Windows\Media\Alarm01.wav 并播放
+> 用 lea 打开 C:\Windows\Media\Alarm01.wav 并播放
 
 预期：客户端自动启动（若未运行）、弹出窗口、出现音频标签页并开始播放。
 
 再试一句（验证可编辑页面能力）：
 
-> 用 universal-renderer 渲染一个可编辑页面，标题"勾股定理"，包含讲解文字和一个可点击的直角三角形演示互动组件
+> 用 lea 渲染一个可编辑页面，标题"勾股定理"，包含讲解文字和一个可点击的直角三角形演示互动组件
 
 预期：出现 page 标签页，Agent 通过 render_content(content_type='page') 生成内容块，
 用户可按 Ctrl+E 进入编辑模式修改文字。
@@ -93,7 +93,7 @@ JSON 配置：
 
 ## 日志位置
 
-- 应用日志：`%APPDATA%\LEA\universal-renderer.log`
+- 应用日志：`%APPDATA%\LEA\lea.log`
 - 视图状态：`%APPDATA%\LEA\view-state.json`
 - MCP Server 运行日志走 stderr（由 Agent 客户端决定是否展示）
 

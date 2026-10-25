@@ -19,7 +19,7 @@ AI 推理与内容生成交给外部 Agent（如豆包桌面版）：Agent 创�
     │ get_view_state ←──┤  运行时脚本：滚动/媒体/输入状态保留       │
     │ （状态/选区回传）   │  无 Node、无系统命令、默认无网络         │
 ────┴───────────────    └─────────────────────────────────────────┘
-        MCP(stdio, 7 工具) ── 命名管道 ── GUI 客户端；未运行自动拉起
+        MCP(stdio, 10 工具) ── 命名管道 ── GUI 客户端；未运行自动拉起
 ```
 
 文件夹结构（只有两个约定——**文件夹名就是内容的名字**，没有"应用"概念）：
@@ -131,7 +131,7 @@ Agent 生成的文件夹页面里，**所有交互组件开箱即用**——库�
 ```json
 {
   "mcpServers": {
-    "universal-renderer": {
+    "lea": {
       "command": "C:\\Users\\<用户名>\\AppData\\Local\\Programs\\UniversalRenderer\\mcp-server.exe",
       "args": []
     }
@@ -156,7 +156,7 @@ Agent 生成的文件夹页面里，**所有交互组件开箱即用**——库�
 | `list_versions {path}` | 查看文件**历史版本**（自动快照保留 20 份） |
 | `restore_version {path, version}` | **恢复**到历史版本（恢复可撤销，恢复即热更新） |
 
-工具 Schema、学习页模板与零术语工作流见 [skill/universal-renderer/SKILL.md](skill/universal-renderer/SKILL.md)；
+工具 Schema、学习页模板与零术语工作流见 [skill/lea/SKILL.md](skill/lea/SKILL.md)；
 配置步骤与故障排查见 [docs/02-MCP配置示例.md](docs/02-MCP配置示例.md)。
 
 ## 知识管理五件套
