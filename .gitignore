@@ -6,3 +6,4 @@ dist/
 test/fixtures/media/*.mp4
 test/fixtures/interactive/*/assets/*.mp4
 test/*.png
+test/smoke-out.txt
