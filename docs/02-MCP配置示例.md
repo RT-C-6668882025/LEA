@@ -32,7 +32,7 @@ JSON 配置：
 {
   "mcpServers": {
     "lea": {
-      "command": "C:\\Users\\<你的用户名>\\AppData\\Local\\Programs\\UniversalRenderer\\mcp-server.exe",
+      "command": "C:\\Users\\<你的用户名>\\AppData\\Local\\Programs\\LEA\\mcp-server.exe",
       "args": []
     }
   }
@@ -45,7 +45,7 @@ JSON 配置：
 {
   "mcpServers": {
     "lea": {
-      "command": "C:\\Users\\<你的用户名>\\AppData\\Local\\Programs\\UniversalRenderer\\mcp-server.exe",
+      "command": "C:\\Users\\<你的用户名>\\AppData\\Local\\Programs\\LEA\\mcp-server.exe",
       "args": []
     }
   }
@@ -58,7 +58,7 @@ JSON 配置：
 {
   "mcpServers": {
     "lea": {
-      "command": "C:\\Users\\<你的用户名>\\AppData\\Local\\Programs\\UniversalRenderer\\resources\\app\\mcp-server.cmd",
+      "command": "C:\\Users\\<你的用户名>\\AppData\\Local\\Programs\\LEA\\resources\\app\\mcp-server.cmd",
       "args": []
     }
   }

@@ -132,7 +132,7 @@ Agent 生成的文件夹页面里，**所有交互组件开箱即用**——库�
 {
   "mcpServers": {
     "lea": {
-      "command": "C:\\Users\\<用户名>\\AppData\\Local\\Programs\\UniversalRenderer\\mcp-server.exe",
+      "command": "C:\\Users\\<用户名>\\AppData\\Local\\Programs\\LEA\\mcp-server.exe",
       "args": []
     }
   }
